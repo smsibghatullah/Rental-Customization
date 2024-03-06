@@ -11,7 +11,7 @@ class AccountAsset(models.Model):
 
     @api.onchange('model_id')
     def _onchange_model_id(self):
-        if self.model_id:
+        if self.model_id and self.state != 'model':
             self.is_fleet = self.model_id.is_fleet
             self.is_rental_product = self.model_id.is_rental_product
             self.account_depreciation_expense_id = self.model_id.account_depreciation_expense_id
