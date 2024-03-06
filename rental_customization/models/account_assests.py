@@ -24,21 +24,22 @@ class AccountAsset(models.Model):
     def create(self, vals):
         res = super(AccountAsset, self).create(vals)
         for asset in res:
-            if asset.state != 'model' and asset.model_id and not asset.fleet_model_id:
-                raise UserError("For this Asset Model. please select Fleet Model too")
-            if asset.state != 'model' and asset.is_rental_product:
-                product_template_obj = self.env['product.template']
-                product_template_vals = {
-                    'name': asset.name,
-                    'rent_ok': True,
-                    'purchase_ok': False,
-                    'sale_ok': False,
-                }
-                product_template_obj.create(product_template_vals)
-            if asset.is_fleet and asset.fleet_model_id:
-                fleet_obj = self.env['fleet.vehicle']
-                fleet_vals = {
-                    'model_id': asset.fleet_model_id.id,
-                }
-                fleet_obj.create(fleet_vals)
+             if asset.state != 'model':
+                    if asset.state != 'model' and asset.model_id and not asset.fleet_model_id:
+                        raise UserError("For this Asset Model. please select Fleet Model too")
+                    if asset.state != 'model' and asset.is_rental_product:
+                        product_template_obj = self.env['product.template']
+                        product_template_vals = {
+                            'name': asset.name,
+                            'rent_ok': True,
+                            'purchase_ok': False,
+                            'sale_ok': False,
+                        }
+                        product_template_obj.create(product_template_vals)
+                    if asset.is_fleet and asset.fleet_model_id:
+                        fleet_obj = self.env['fleet.vehicle']
+                        fleet_vals = {
+                            'model_id': asset.fleet_model_id.id,
+                        }
+                        fleet_obj.create(fleet_vals)
         return res
