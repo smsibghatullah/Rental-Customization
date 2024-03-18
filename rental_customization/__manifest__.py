@@ -5,9 +5,10 @@
     'sequence': 10,
     'description': """rental_customization""",
     'category': 'Accounting',
-    'depends': ['base', 'account_asset'],
+    'depends': ['base', 'account_asset','product'],
     'data': [
         'views/account_asset_views.xml',
+        'views/product_views.xml',
     ],
     'demo': [],
     'installable': True,

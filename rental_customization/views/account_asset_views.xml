@@ -5,18 +5,46 @@
         <field name="model">account.asset</field>
         <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
         <field name="arch" type="xml">
+           
             <xpath expr="//sheet" position="inside">
                 <group invisible="state != 'model'">
                     <field name="is_rental_product"/>
                     <field name="is_fleet"/>
                 </group>
             </xpath>
+          
            <xpath expr="//field[@name='model_id']" position="after">
                     <field name="fleet_model_id" invisible="state == 'model'"/>
            </xpath>
+         
             <xpath expr="//field[@name='account_asset_id']" position="attributes">
                 <attribute name="required">1</attribute>
             </xpath>
+            
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_open_fleet"
+                                    type="object" icon="fa-bars">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value" align="center">
+                                         <field name="fleet_vehicle_count" />
+                                    </span>
+                                    <span class="o_stat_text" >
+                                         Fleets
+                                    </span>
+                                </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_open_rental"
+                                   type="object" icon="fa-bars">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value" align="center">
+                                        <field name="rental_count" />
+                                    </span>
+                                    <span class="o_stat_text" >
+                                        Rental Products
+                                    </span>
+                                </div>
+                    </button>
+                </xpath>
         </field>
     </record>
 </odoo>

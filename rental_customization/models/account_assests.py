@@ -8,6 +8,7 @@ class AccountAsset(models.Model):
     is_fleet = fields.Boolean(string="Is Fleet")
     fleet_model_id = fields.Many2one('fleet.vehicle.model', string='Fleet Model', required=False)
     
+    
 
     @api.onchange('model_id')
     def _onchange_model_id(self):
@@ -29,8 +30,10 @@ class AccountAsset(models.Model):
                         raise UserError("For this Asset Model. please select Fleet Model too")
                     if asset.state != 'model' and asset.is_rental_product:
                         product_template_obj = self.env['product.template']
+                        print(asset.id,'ggggggggggggggggggggg',asset.name)
                         product_template_vals = {
                             'name': asset.name,
+                            'account_asset_id':asset.id,
                             'rent_ok': True,
                             'purchase_ok': False,
                             'sale_ok': False,
@@ -40,6 +43,7 @@ class AccountAsset(models.Model):
                         fleet_obj = self.env['fleet.vehicle']
                         fleet_vals = {
                             'model_id': asset.fleet_model_id.id,
+                            'account_asset_id': asset.id
                         }
                         fleet_obj.create(fleet_vals)
         return res
